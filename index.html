@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teachers' Day Invitation Card Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles */
+    /* Clip the middle image as circle on the second card */
+    .circle-img {
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Container for the invitation card */
+    #invitationCard {
+      width: 100%;
+      max-width: 600px;
+      border: 1.5px solid #333;
+      border-radius: 12px;
+      background: #fdfaf8;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    @media (max-width: 600px) {
+      #invitationCard {
+        max-width: 98vw;
+        padding: 8px !important;
+        font-size: 0.95rem;
+      }
+      #formContainer {
+        max-width: 98vw;
+        padding: 8px !important;
+      }
+      .circle-img {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      .w-full.h-48 {
+        height: 120px !important;
+      }
+      .mt-10.flex {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+      .px-6 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50 to-orange-100 min-h-screen flex flex-col items-center justify-center p-6 font-sans">
+  <h1 class="text-3xl font-bold mb-8 text-amber-900 drop-shadow-lg text-center">Teachers' Day Invitation Card Generator</h1>
+
+  <!-- Step 1: Form for entering name -->
+  <div id="formContainer" class="w-full max-w-md bg-white rounded-lg p-6 shadow-lg">
+    <img 
+      src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nroRPRFeSI7PRZb5ZHyqC344iGVj2pH5ZBX665kgIR13kfPyModA5MQDXbG9g167tY7w8p_M_3uOuLGkbJdaaN2ihD_ZHon1WhLAyoy4aZc3mDCH9oh3GO5ekpx6F7EHfHaQyFf=s680-w680-h510-rw" 
+      alt="Colorful Teachers' Day themed banner with books, chalkboard, and an apple" 
+      class="w-full h-48 object-cover rounded-md mb-6"
+      onerror="this.style.display='none'"
+    />
+    
+    <p class="text-center mb-4 text-gray-700 font-semibold">Join us in celebrating Teachers' Day</p>
+    
+  <div class="mx-auto mb-6 flex flex-col items-center justify-center">
+     
+        <label for="img2-upload" class="upload-label text-amber-900 font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-amber-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V19a2 2 0 002 2h14a2 2 0 002-2v-2.5M16.5 12.75l-4.5 4.5m0 0l-4.5-4.5m4.5 4.5V4.5" />
+          </svg>
+          Upload your photo
+        </label>
+        <input type="file" id="img2-upload" accept="image/*" class="ml-2 file:bg-amber-600 file:text-white file:rounded file:px-3 file:py-1 file:border-none file:cursor-pointer" />
+
+    </div>
+    
+    <form id="nameForm" class="flex flex-col items-center" onsubmit="return handleSubmit(event)">
+      <input 
+        type="text" 
+        id="nameInput" 
+        placeholder="Enter your name" 
+        required 
+        class="border-2 border-amber-600 rounded py-2 px-4 w-full max-w-xs text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 mb-6"
+        autocomplete="off"
+      />
+      <button 
+        type="submit" 
+        class="bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded px-6 py-2 w-full max-w-xs shadow-md transition"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <!-- Step 2: Invitation Card Result (Hidden Initially) -->
+  <div id="invitationCard" class="hidden mt-12 bg-white p-6">
+    <!-- Top banner image -->
+    <img 
+      src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1b71f338-e698-4382-9e1e-a7fe28f54e49.png's+Day+Background+Bright+Colors" 
+      alt="Colorful Teachers' Day themed banner with books, chalkboard, and an apple" 
+      class="w-full h-48 object-cover rounded-md mb-8"
+      onerror="this.style.display='none'"
+    />
+
+    <!-- Circular IMG 2 overlapping top image -->
+    <div class="relative w-full flex justify-center -mt-20 mb-6">
+      <img 
+        id="uploadedImgPreview"
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fa1a1763-a973-475f-9c60-6a79e4220ac4.png" 
+        alt="Your uploaded photo or default decorative image" 
+        class="w-28 h-28 circle-img border-4 border-white shadow-lg"
+        onerror="this.style.display='none'"
+      />
+    </div>
+
+    <!-- Invitation content -->
+    <div class="text-center space-y-2 mb-8 px-6">
+      <h2 class="text-2xl font-bold text-amber-900 drop-shadow-md">You're Invited!</h2>
+      <p class="text-xl font-semibold text-gray-800" id="guestNameDisplay"></p>
+    </div>
+
+    <!-- QR and info section -->
+    <div class="flex flex-wrap justify-between items-center px-6">
+      <div class="flex flex-col items-start space-y-1 text-gray-700 font-medium text-sm max-w-[60%]">
+        <p>Address: <span id="eventAddress">G-block Room No. G-208 Pragjyotish Path, Santipur Guwahati, Assam 781009  </span></p>
+        <p>Date: <span id="eventDate">5th September 2025</span></p>
+        <p>Time: <span id="eventTime">10:00 AM - 2:00 PM</span></p>
+      </div>
+      <div>
+        <!-- Constant Instagram QR code -->
+        <div class="w-28 h-28 border-4 border-amber-600 rounded shadow-md cursor-pointer hover:scale-105 transition-transform" title="Scan to follow on Instagram">
+          <img 
+            src="./qr.jpg" 
+            alt="QR Code directing to the Instagram account @yourinstagram with black and white pattern" 
+            class="w-full h-full object-contain"
+            onerror="this.style.display='none'"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Download buttons -->
+    <div class="mt-10 flex justify-center space-x-6">
+      <button 
+        id="downloadJpgBtn" 
+        class="bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded px-6 py-2 shadow-md transition"
+      >Download JPG</button>
+      <button 
+        id="downloadPdfBtn" 
+        class="bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded px-6 py-2 shadow-md transition"
+      >Download PDF</button>
+    </div>
+  </div>
+
+  <!-- JS libs for download and rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNa5wrN6N7vtphW3sbNBAf6cD3Ge3V/TZ9qmSuWcsLQPu4k+ZzTxvFo7samkFruQloTSLncmvvrFfnVl5BTpOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-hdWb3TOCkQ0WIerSLbXWRUtHjpkejciAtcqBicPUjWvAKl8JB9EUwl+Xzfy+SmREd3rlauEL0+Z77PNkIA5rsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('nameInput');
+      const guestNameDisplay = document.getElementById('guestNameDisplay');
+      if (!nameInput.value.trim()) {
+        alert('Please enter your name.');
+        return false;
+      }
+      guestNameDisplay.textContent = nameInput.value.trim();
+
+      // Hide form, show invitation
+      document.getElementById('formContainer').classList.add('hidden');
+      document.getElementById('invitationCard').classList.remove('hidden');
+
+      return false;
+    }
+
+    // Handle image upload and preview
+    document.getElementById('img2-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          document.getElementById('uploadedImgPreview').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Download invitation card as JPG
+    document.getElementById('downloadJpgBtn').addEventListener('click', () => {
+      const card = document.getElementById('invitationCard');
+      html2canvas(card, { scale: window.devicePixelRatio }).then(canvas => {
+        canvas.toBlob(blob => {
+          const link = document.createElement('a');
+          link.download = 'teachers_day_invitation.jpg';
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        }, 'image/jpeg', 1);
+      });
+    });
+
+    // Download invitation card as PDF
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+      const card = document.getElementById('invitationCard');
+      html2canvas(card, { scale: window.devicePixelRatio }).then(canvas => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'px',
+          format: [canvas.width, canvas.height]
+        });
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+        pdf.save('teachers_day_invitation.pdf');
+      });
+    });
+    
+  </script>
+</body>
+</html>
+
